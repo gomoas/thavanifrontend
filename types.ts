@@ -3,11 +3,12 @@ export interface Product {
   id: string;
   name: string;
   price: string;
-  images: string[]; // URLs of images
+  images: image[]; // URLs of images
   rating: number;
   reviewsCount: number;
   colors: string;
   sizes: string;
+  description: string;
 }
 
 export interface CartItem {
@@ -20,4 +21,7 @@ export interface CartItem {
 export interface CartState {
   items: CartItem[];
 }
-
+export interface image{
+  id: string;
+  image_url: string;
+}
