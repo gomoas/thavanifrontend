@@ -6,6 +6,7 @@ import { StaticImageData } from "next/image";
 interface CollectionProductProps {
     img: string | StaticImageData;
     text: string;
+    price: string;
 }
 
 const CollectionProduct: React.FC<CollectionProductProps> = ({ img, text ,price}) => {
