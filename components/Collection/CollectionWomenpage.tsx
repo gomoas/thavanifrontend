@@ -1,4 +1,7 @@
-"use client"
+import img1 from "@/images/Home/img1.png";
+import img2 from "@/images/Home/img5.png";
+import img3 from "@/images/Home/img3.png";
+import img4 from "@/images/Home/img4.png";
 import Image from "next/image";
 import {
     Accordion,
@@ -18,38 +21,19 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination";
 import Link from "next/link";
-import { Product } from "@/types";
-import { useState, useEffect } from "react";
-import { fetchProducts } from "@/apiRequest/product";
-
 
 export default function WomenCollectionPage() {
-    const img1 = "https://thvanis3.s3.ap-south-1.amazonaws.com/products/48c4cbdd70500296b5f12c76f34676c0-z1renders.png";
-    const [liveProducts, setLiveProducts] = useState<Product[]>([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await fetchProducts();
-                console.log(data);
-                setLiveProducts(data)
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        console.log("called");
-        fetchData();
-    }, []);
     const products = [
         { img: img1, text: "Women's Sale", href: "/product" },
-        { img: img1, text: "Women's New Arrival", href: "/product" },
-        { img: img1, text: "Women's Dress", href: "/product" },
-        { img: img1, text: "Women's Ethnic Wear", href: "/product" },
+        { img: img2, text: "Women's New Arrival", href: "/product" },
+        { img: img3, text: "Women's Dress", href: "/product" },
+        { img: img4, text: "Women's Ethnic Wear", href: "/product" },
     ];
 
     const collectionProducts = [
-        { img: img1, badge: ["Trending", "New arrived"], text: "Organic Fleece Oversized Sweatshirt" },
-        { img: img1, badge: ["Trending"], text: "Organic Fleece Relaxed Pocket" },
-        { img: img1, badge: ["Best seller"], text: "Organic Cotton Classic Tee" },
+        { img: img1,badge:["Trending","New arrived"], text: "Organic Fleece Oversized Sweatshirt" },
+        { img: img2,badge:["Trending"], text: "Organic Fleece Relaxed Pocket" },
+        { img: img3,badge:["Best seller"], text: "Organic Cotton Classic Tee" },
     ];
 
     const accordionItems = [
@@ -77,18 +61,18 @@ export default function WomenCollectionPage() {
 
                 {/* Products Section */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 md:px-[50px]">
-                    {liveProducts.map((product, index) => (
+                    {products.map((product, index) => (
                         <div key={index} className="flex flex-col gap-2 p-2 rounded-lg">
                             <div className="w-full rounded-xl  overflow-hidden h-[40vh] sm:h-[35vh] lg:h-[45vh]">
-                                <Image
-                                    alt={product.description}
-                                    src={product.images[0].image_url}
-                                    className="rounded-xl w-full h-full object-cover transform transition-transform duration-300 hover:scale-105"
-                                />
+                            <Image
+                                alt={product.text}
+                                src={product.img}
+                                className="rounded-xl w-full h-full object-cover transform transition-transform duration-300 hover:scale-105"
+                            />
                             </div>
-                            <p className="font-bold text-lg lg:text-left lg:text-[1.3vw] text-center">{product.description}</p>
+                            <p className="font-bold text-lg lg:text-left lg:text-[1.3vw] text-center">{product.text}</p>
                             <div className="flex justify-center lg:justify-start">
-                                <Link href={'/product'}>
+                                <Link href={product.href}>
                                     <button className="p-3 mt-3 px-6 bg-black text-white rounded-full text-sm lg:text-[1.1vw] hover:bg-gray-800 transition-colors duration-200">
                                         Shop
                                     </button>
@@ -115,16 +99,20 @@ export default function WomenCollectionPage() {
                     {/* Product Grid */}
                     <div className="flex flex-col w-full gap-10">
                         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-5 lg:px-20 justify-items-center">
-                            {liveProducts.map((product) => (
-                                <CollectionProduct
-                                    key={product.id}
-                                    img={product.images?.[0].image_url }
-                                    text={product.description}
-                                    price={product.price}
-                                />
+                            {collectionProducts.map((product, index) => (
+                                <CollectionProduct  key={index} img={product.img} text={product.text} />
                             ))}
                         </div>
-
+                        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-5 lg:px-20 justify-items-center">
+                            {collectionProducts.map((product, index) => (
+                                <CollectionProduct  key={index} img={product.img} text={product.text} />
+                            ))}
+                        </div>
+                        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-5 lg:px-20 justify-items-center">
+                            {collectionProducts.map((product, index) => (
+                                <CollectionProduct  key={index} img={product.img} text={product.text} />
+                            ))}
+                        </div>
                     </div>
                 </div>
 

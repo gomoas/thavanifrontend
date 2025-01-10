@@ -1,6 +1,9 @@
 "use client"
+import img1 from "@/images/Home/img1.png";
+import img2 from "@/images/Home/img5.png";
+import img3 from "@/images/Home/img3.png";
+import img4 from "@/images/Home/img4.png";
 import Image from "next/image";
-import { Product } from "@/types";
 import {
     Accordion,
     AccordionContent,
@@ -20,14 +23,14 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination";
 import Link from "next/link";
-import { fetchProducts ,fetchProductByCategoryId } from "@/apiRequest/product";
+import { fetchProducts } from "@/apiRequest/product";
 
 export default function MenCollectionPage() {
-const img1 = "https://thvanis3.s3.ap-south-1.amazonaws.com/products/48c4cbdd70500296b5f12c76f34676c0-z1renders.png";
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchProductByCategoryId("men");
+                const data = await fetchProducts();
                 console.log(data);
                 setLiveProducts(data)
             } catch (err) {
@@ -37,20 +40,18 @@ const img1 = "https://thvanis3.s3.ap-south-1.amazonaws.com/products/48c4cbdd7050
         console.log("called");
         fetchData();
     }, []);
-
-    const [liveProducts, setLiveProducts] = useState<Product[]>([]);
-
     const products = [
         { img: img1, text: "Men's Sale", href: "/product" },
-        { img: img1, text: "Men's New Arrival", href: "/product" },
-        { img: img1, text: "Men's Casual Wear", href: "/product" },
-        { img: img1, text: "Men's Ethnic Wear", href: "/product" },
+        { img: img2, text: "Men's New Arrival", href: "/product" },
+        { img: img3, text: "Men's Casual Wear", href: "/product" },
+        { img: img4, text: "Men's Ethnic Wear", href: "/product" },
     ];
+    const [liveProducts, setLiveProducts] = useState([]);
 
     const collectionProducts = [
         { img: img1, badge: ["Trending", "New arrived"], text: "Organic Cotton Casual Shirt" },
-        { img: img1, badge: ["Best seller"], text: "Organic Cotton Relaxed Pants" },
-        { img: img1, badge: ["Trending"], text: "Organic Cotton T-Shirt" },
+        { img: img2, badge: ["Best seller"], text: "Organic Cotton Relaxed Pants" },
+        { img: img3, badge: ["Trending"], text: "Organic Cotton T-Shirt" },
     ];
 
     const accordionItems = [
@@ -78,20 +79,20 @@ const img1 = "https://thvanis3.s3.ap-south-1.amazonaws.com/products/48c4cbdd7050
 
                 {/* Products Section */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 md:px-[50px]">
-                    {liveProducts.map((product, index) => (
+                    {products.map((product, index) => (
                         <div key={index} className="flex flex-col gap-2 p-2 rounded-lg">
                             <div className="w-full rounded-xl overflow-hidden h-[40vh] sm:h-[35vh] lg:h-[45vh]">
                                 <Image
-                                    alt={product.description}
-                                    src={product.images[0].image_url}
+                                    alt={product.text}
+                                    src={product.img}
                                     className="rounded-xl w-full h-full object-cover transform transition-transform duration-300 hover:scale-105"
                                 />
                             </div>
                             <p className="font-bold text-lg lg:text-left lg:text-[1.3vw] text-center">
-                                {product.description}
+                                {product.text}
                             </p>
                             <div className="flex justify-center lg:justify-start">
-                                <Link href={'/product'}>
+                                <Link href={product.href}>
                                     <button className="p-3 mt-3 px-6 bg-black text-white rounded-full text-sm lg:text-[1.1vw] hover:bg-gray-800 transition-colors duration-200">
                                         Shop
                                     </button>
@@ -121,13 +122,22 @@ const img1 = "https://thvanis3.s3.ap-south-1.amazonaws.com/products/48c4cbdd7050
                         {liveProducts.map((product) => (
     <CollectionProduct
         key={product.id} 
-        img={product.images?.[0].image_url }
+        img={product.images?.[0]?.image_url || "https://thvanis3.s3.ap-south-1.amazonaws.com/products/48c4cbdd70500296b5f12c76f34676c0-z1renders.png"}
         text={product.description}
         price={product.price}
     />
 ))}
                         </div>
-                    
+                        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-5 lg:px-20 justify-items-center">
+                            {collectionProducts.map((product, index) => (
+                                <CollectionProduct key={index} img={product.img} text={product.text} />
+                            ))}
+                        </div>
+                        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-5 lg:px-20 justify-items-center">
+                            {collectionProducts.map((product, index) => (
+                                <CollectionProduct key={index} img={product.img} text={product.text} />
+                            ))}
+                        </div>
                     </div>
                 </div>
 
